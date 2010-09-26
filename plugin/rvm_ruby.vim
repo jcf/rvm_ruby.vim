@@ -15,17 +15,23 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if strlen($RUBY_VERSION)
-  let g:rvm_ruby = "$HOME/.rvm/rubies/$RUBY_VERSION/bin/ruby"
+  let g:rvm_bin = "$HOME/.rvm/rubies/$RUBY_VERSION/bin/"
 else
-  let g:rvm_ruby = "$HOME/.rvm/rubies/default/bin/ruby"
+  let g:rvm_bin = "$HOME/.rvm/rubies/default/bin/"
 endif
 
 function s:RVMRuby(...)
   let s:arg_string = join(a:000, " ")
-  exe "!" . g:rvm_ruby . " " . s:arg_string
+  exe "!" . g:rvm_bin . "ruby " . s:arg_string
+endfunction
+
+function s:RVMGem(...)
+  let s:arg_string = join(a:000, " ")
+  exe "!" . g:rvm_bin . "gem " . s:arg_string
 endfunction
 
 command! -nargs=+ -complete=file Ruby :call <SID>RVMRuby(<f-args>)
+command! -nargs=+ -complete=file Gem :call <SID>RVMGem(<f-args>)
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
