@@ -31,6 +31,4 @@ Use the Ruby ex command:
 
 And you'll get some nice output:
 
-    :!$HOME/.rvm/rubies/$RUBY_VERSION/bin/ruby -v
-    [No write since last change]
     ruby 1.9.2p0 (2010-08-18 revision 29036) [x86_64-darwin10.4.0]

@@ -1,10 +1,5 @@
-" plugin/rvm_ruby.vim
 " Author:   James Conroy-Finn <james@logi.cl>
 " License:  MIT License
-
-" Install this file as plugin/rvm_ruby.vim.
-
-" ============================================================================
 
 if &cp || exists("g:rvm_ruby_loaded") && g:rvm_ruby_loaded
   finish
@@ -14,20 +9,29 @@ let g:rvm_ruby_loaded = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if strlen($RUBY_VERSION)
-  let g:rvm_bin = "$HOME/.rvm/rubies/$RUBY_VERSION/bin/"
-else
-  let g:rvm_bin = "$HOME/.rvm/rubies/default/bin/"
+if !exists("g:rvm_path")
+  let g:rvm_path = "$HOME/.rvm"
 endif
 
-function s:RVMRuby(...)
-  let s:arg_string = join(a:000, " ")
-  exe "!" . g:rvm_bin . "ruby " . s:arg_string
+if strlen($RUBY_VERSION)
+  let s:rvm_bin = g:rvm_path . "/rubies/$RUBY_VERSION/bin/"
+else
+  let s:rvm_bin = g:rvm_path . "/rubies/default/bin/"
+endif
+
+function! s:RVMSystemCall(command, ...)
+  let s:arg_string = join(a:1, " ")
+  return system(s:rvm_bin . a:command . " " . s:arg_string)
 endfunction
 
-function s:RVMGem(...)
-  let s:arg_string = join(a:000, " ")
-  exe "!" . g:rvm_bin . "gem " . s:arg_string
+function! s:RVMRuby(...)
+  let s:result = s:RVMSystemCall("ruby", a:000)
+  echo s:result
+endfunction
+
+function! s:RVMGem(...)
+  let s:result = s:RVMSystemCall("gem", a:000)
+  echo s:result
 endfunction
 
 command! -nargs=+ -complete=file Ruby :call <SID>RVMRuby(<f-args>)
