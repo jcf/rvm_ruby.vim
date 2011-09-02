@@ -1,3 +1,10 @@
+# No longer supported!
+
+MacVim now supports using your RVM ruby, making this plugin somewhat
+redundant. For the few remaining features you might want I'd recommend
+using [Tim Pope's](https://github.com/tpope) excellent
+[rvm.vim](https://github.com/tpope/vim-rvm).
+
 # rvm_ruby.vim
 
 Until MacVim supports RVM I've written this quick little plugin that provides a
